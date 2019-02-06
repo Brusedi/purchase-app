@@ -1,0 +1,17 @@
+<div class="p-2 m-4">
+
+  <div *ngIf="itemsKeys$ | async as ids ; else loading;">
+    <div *ngFor="let id of ids" >
+      <p>
+          <app-purch-list-item [itemId]="id"> </app-purch-list-item>
+      </p>
+    </div>
+  </div>  
+
+  <ng-template #loading >
+    <p>
+    гружуся потихонечку...
+    </p>
+  </ng-template>
+ 
+</div>

@@ -122,7 +122,19 @@ export const selCurName = () =>
     createSelector( selectDatas, x => x.currentId ) ;
 
 export const selCurItem = () => 
-    createSelector(selectDatas, x => x.items[x.currentId] );  //x.currentId ? x.items[x.currentId] : null ); 
+     createSelector(selectDatas, x => x.items[x.currentId] );  //x.currentId ? x.items[x.currentId] : null ); 
+
+export const selCurItemData = () => 
+    createSelector(selectDatas, x => 
+         !x.currentId ? undefined :
+             x.items[x.currentId].state.entities
+     ); 
+
+export const selCurItemIds = () => 
+     createSelector(selectDatas, x => 
+          !x.currentId ? undefined :
+              x.items[x.currentId].state.ids
+      );  
 
 export const selCurItemMeta = () => 
     createSelector(selectDatas, x => 
@@ -145,7 +157,8 @@ export const selCurRowTemplate = () =>
                 x.items[x.currentId].state.template 
     );        
 
-export const selCurIsMetaLoaded = () =>  createSelector(selectDatas, x => x.currentId ? x.items[x.currentId].state.loaded : false);  
+export const selCurIsDataLoaded = () =>  createSelector(selectDatas, x => x.currentId ? x.items[x.currentId].state.loaded : false);  
+export const selCurIsMetaLoaded = () =>  createSelector(selectDatas, x => x.currentId ? x.items[x.currentId].state.metaLoaded : false);  
 
 export const selCurRowSeed = () =>
     createSelector( selectDatas, x => 
@@ -154,6 +167,11 @@ export const selCurRowSeed = () =>
                 x.items[x.currentId].state.rowSeed 
     );        
 
+//item    
+export const selCurItemById = (id:any) => 
+    createSelector(selCurItemData(), 
+        x => x && (id in x) ?  x[id] : undefined 
+    ); 
 
 //Question Current------------------------------------------------------------------------------------------------------------------
 // FieldDescribes[]

@@ -1,0 +1,35 @@
+<div class="card">
+  <div *ngIf="item$ | async as item ; else loading;" >
+    <div class="card-body">
+        <div class="row">
+
+          <div  class="col-4">
+            <div class="card-body">
+              <h6 class="card-title">{{ toPurchMethDescr(item.PURCHASEMETHOD, item.ISDIGITAL) }} </h6>
+              <h6 class="card-subtitle mb-2 text-muted">{{toStateDescr(item.PLANPURCHASEPUBLICSTATE)}} </h6>
+              <p class="text-danger ">{{toLawDescr(item.PLANPURCHASELAW)}} </p>
+              <p class="text-secondary p-0 m-0">Начальная цена</p>
+              <h4 class="card-title p-0 m-0">{{item.MAXPRICE}} </h4>
+              <p class="text-secondary p-0 m-0">{{toCyrDescr(item.CURRENCY)}}</p>
+
+            </div>
+          </div>
+
+          <div class="col-8" >
+              <div class="card-body">
+                <p class="card-text">{{item.SUBJECTOFCONTRACT}}</p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+          </div>
+        </div>    
+    </div>
+    <div class="card-footer text-muted">{{itemId}}</div>
+  </div>  
+
+  <ng-template #loading > <p class="p-2 m-2" >гружуся потихонечку... </p></ng-template>
+
+</div>
+
+
+  
