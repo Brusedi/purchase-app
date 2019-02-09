@@ -8,7 +8,12 @@
 <router-outlet></router-outlet>
 
 <div class="container-fluid text-center" >
-    <h3>
-      Подвалы {{ title }}!
-    </h3>
-  </div>
+  <h3>
+    Подвалы {{ title }}!
+  </h3>
+</div>
+
+<div [hidden]="!(spiner$ |async)" class="loading spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
+  <span class="sr-only">Loading...</span>
+</div>
+  

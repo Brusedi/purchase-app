@@ -65,6 +65,7 @@ export class AddItemSuccess<T> implements Action {
 
 export class GetItemsMeta implements Action {
     readonly type = AnyEntityActionTypes.GET_ITEMS_META;
+    reduserData: boolean;
     constructor() {}
 }
 export class GetItemsMetaSuccess implements Action {

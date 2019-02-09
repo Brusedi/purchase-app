@@ -50,7 +50,7 @@ export const selectJab = () =>
 export const selectData = ( id: string ) => 
     createSelector(
         selectDatas,
-        dt =>  dt.items[id]
+        dt =>  id in dt.items ?  dt.items[id] : null
 );
 
 export const selectDataOptions = ( id: string ) => 
@@ -113,6 +113,15 @@ export const selectIsLoading = (id: string) =>
     createSelector( 
         selectData(id),
         (x:AnyEntytySetItemState<any>) => x.state.loading || x.state.metaLoading
+);    
+
+/**
+ *  item is Prepared
+ */
+export const selectIsPrepared = (id: string) =>
+    createSelector( 
+        selectData(id),
+        (x:AnyEntytySetItemState<any>) => (x && x.state.metaLoading )
 );    
 
 
@@ -335,6 +344,8 @@ export const selectDataAndPartLoadedIfExist = ( id: string ) =>
     );
 
 
+
+
 export const selectIsExistByLoc = ( loc: string ) => selectIsExist( locationToName(loc) ) ;
 
 export const selectIsPreparedByLoc = ( loc: string ) => selectIsMetadataLoaded( locationToName(loc) ) ;
@@ -361,7 +372,7 @@ export const selectOptionsByLoc = ( loc: string ) => selectOptions( locationToNa
 export const selPartIndOptions = ( resolvedLoc: string ) => 
     createSelector(
         selectDataAndPartLoadedIfExist(locationToName(resolvedLoc)),
-        (cntr) => !(resolvedLoc in cntr.parts)? null: 
+        (cntr) => !cntr || !(resolvedLoc in cntr.parts) ? null: 
             cntr.parts[resolvedLoc].reduce( (a,x) => ({...a, [x]:cntr.data[x]}) , {} )
     );  
 
@@ -412,8 +423,26 @@ export const selectForeignOptionsByLoc = ( loc: string ) =>
             //console.log(ret);
             return ret;
         }
-    );  
+    );
 
+    export const selectForeignDataByLoc = ( loc: string ) => 
+    createSelector(
+        selectStateIfExist(locationToName(loc)),
+        selectResolvedLoc(loc),
+        (x,l) => {
+            const dap = x ? ({ data: (x.state.entities), parts: ( Object.keys(x.state.partLoaded).length > 0) ? (x.state.partLoaded):null, meta:x.state.metadata }) : null ;
+
+            const selData = !x ? null:(
+                isFullIndepended(loc) ? dap.data :(
+                    !dap || !dap.parts ? null :(
+                            !(l in dap.parts)? null: 
+                            dap.parts[l].reduce( (a,x) => ({...a, [x]:dap.data[x]}) , {} )
+            )));
+                       
+            return selData;
+           
+        }
+    ); 
 /**
  * Select selected partLocation
  */

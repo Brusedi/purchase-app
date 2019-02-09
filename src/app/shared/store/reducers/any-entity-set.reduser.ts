@@ -3,6 +3,7 @@ import { anyEntityActions } from "@appStore/actions/any-entity.actions";
 import { AnyEntytyState }   from "./any-entity.reduser";
 import { AnyEntitySetAction, AnyEntitySetActionTypes, ExecItemAction } from "@appStore/actions/any-entity-set.actions";
 import * as fromEntityReduser from "./any-entity.reduser"
+import { locationToName } from "app/shared/services/foregin/foreign-key.helper";
 
 // 
 export interface AnyEntytySetItemState<T> {
@@ -35,8 +36,9 @@ export function reducer(state :State  = initialState, action: AnyEntitySetAction
     
     switch (action.type) {
         
-        case AnyEntitySetActionTypes.PART_LOAD_BY_LOC:{        
-            return { ...state, jab:!state.jab};    
+        case AnyEntitySetActionTypes.PART_LOAD_BY_LOC:{    
+            //action.reduserData = {...action.reduserData, needPrepare: }    
+            return state ; //{ ...state , jab:!state.jab};    
         }     
 
         case AnyEntitySetActionTypes.PREPARE_BY_LOC_COMPLETE: {
@@ -47,8 +49,16 @@ export function reducer(state :State  = initialState, action: AnyEntitySetAction
             }
         };
         case AnyEntitySetActionTypes.PREPARE_BY_LOC:{
+            // 080219 отбрасываем повторы
+            const iNotDoble = (state.preparing &&  state.prepareQueue.indexOf(action.payload)<0)
+
+            action.reduserData = ({ isExistEntyty:(locationToName(action.payload) in state.items), 
+                                     isDbl:!iNotDoble});// locationToName(action.payload) in state.items
             return { ...state,
-                prepareQueue: (state.preparing ? [...state.prepareQueue, action.payload ]  : state.prepareQueue),      // если что то обраб, то в очередь ссукины дети, иначе в обработку                    
+                prepareQueue: (
+                    iNotDoble ?
+                    [...state.prepareQueue, action.payload ]  : 
+                    state.prepareQueue),      // если что то обраб, то в очередь ссукины дети, иначе в обработку                    
                 preparing: (state.preparing ?  state.preparing : action.payload)
             }
         }    

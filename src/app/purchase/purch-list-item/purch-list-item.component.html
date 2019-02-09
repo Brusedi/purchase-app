@@ -1,8 +1,15 @@
 <div class="card">
   <div *ngIf="item$ | async as item ; else loading;" >
-    <div class="card-body">
-        <div class="row">
 
+    <div class="card-header p-0 pt-2 pl-4 pr-4 m-0">
+        <div class="row">
+          <h6 class="text-primary col">№ {{item.EXTERNALID}} ({{itemId}})</h6>  
+          <p class="col col-lg-2 text-right p-0 m-0 pb-2 "><small>{{item.PUBLICDATE | date:'dd.MM.yy'}} / {{item.PUBLICUPDATEDATE | date:'dd.MM.yy'}}</small><p>
+        </div>
+    </div>
+
+    <div class="card-body p-0">
+        <div class="row">
           <div  class="col-4">
             <div class="card-body">
               <h6 class="card-title">{{ toPurchMethDescr(item.PURCHASEMETHOD, item.ISDIGITAL) }} </h6>
@@ -18,13 +25,22 @@
           <div class="col-8" >
               <div class="card-body">
                 <p class="card-text">{{item.SUBJECTOFCONTRACT}}</p>
-                <a href="#" class="card-link">Card link</a>
+                <div class="row">
+                  <h5 class="card-title pl-3">{{item.QTY}}</h5>
+                  <p class="text-secondary pl-3">{{item.UNITID}}</p>
+                </div>
+                <div *ngIf="docs$ | async as docs ; else loading;" >
+                  <div *ngFor="let doc of docs" >
+                    <a href="#" class="card-link">{{doc.TYPEID}} :  {{doc.NAME}}.{{doc.FILETYPE}} </a>
+                  </div> 
+                </div>
+                
                 <a href="#" class="card-link">Another link</a>
               </div>
           </div>
         </div>    
     </div>
-    <div class="card-footer text-muted">{{itemId}}</div>
+    <!-- <div class="card-footer text-muted">{{itemId}}</div> -->
   </div>  
 
   <ng-template #loading > <p class="p-2 m-2" >гружуся потихонечку... </p></ng-template>

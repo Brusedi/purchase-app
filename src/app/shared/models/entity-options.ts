@@ -6,3 +6,10 @@ export const NvaPlanPurchaseLine:anyEntityOptions<AnyEntityId> = {
   selectId: (x) => x.RECID,
   selBack: (x:string) => ("?RECID=" + x )
 };    
+
+export const NVA_EX_PlanPurch_Docs:anyEntityOptions<AnyEntityId> = {
+  name: "NVA_EX_PlanPurch_Docs", 
+  location:"/NvaAx/NVA_EX_PlanPurch_Docs", 
+  selectId: (x) => x.RECID,
+  selBack: (x:string) => ("?RECID=" + x )
+};    

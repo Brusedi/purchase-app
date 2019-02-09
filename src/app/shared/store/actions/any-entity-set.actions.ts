@@ -21,12 +21,15 @@ export enum AnyEntitySetActionTypes {
 
 export class PartLoadByLoc implements Action {
     readonly type = AnyEntitySetActionTypes.PART_LOAD_BY_LOC
+    //reduserData: { needPrepare:boolean };
     constructor(public payload: string )  { }
 }
 
 
 export class PrepareByLoc implements Action {
     readonly type = AnyEntitySetActionTypes.PREPARE_BY_LOC
+    reduserData: {isExistEntyty:boolean,
+                  isDbl:boolean      }
     constructor(public payload: string )  { }
 }
 

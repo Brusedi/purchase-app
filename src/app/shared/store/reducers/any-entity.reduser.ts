@@ -118,6 +118,7 @@ export function reducerFromAdapter( adapt: EntityAdapter<any>){
             }
 
             case AnyEntityActionTypes.GET_ITEMS_META:
+                action.reduserData = state.metaLoading;
                 return { ...state, metaLoading: true, metaLoaded: false  };    
 
             case AnyEntityActionTypes.GET_ITEMS_META_SUCCESS:{

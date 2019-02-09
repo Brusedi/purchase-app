@@ -4,10 +4,12 @@ import { filter, take, map, tap, combineLatest, startWith, switchMap } from 'rxj
 import { Store } from '@ngrx/store';
 import { anyEntityOptions, AnyEntity } from '@appModels/any-entity';
 import { GetItemsMeta, GetItemsPart, GetItems } from '@appStore/actions/any-entity.actions';
-import { SetCurrent, Exec, AddItem, ExecCurrent } from '@appStore/actions/any-entity-set.actions';
+import { SetCurrent, Exec, AddItem, ExecCurrent, PrepareByLoc } from '@appStore/actions/any-entity-set.actions';
 import * as fromStore from '@appStore/index';
 import * as fromSelectors from '@appStore/selectors/index';
 import { ForeignKeyService } from './foregin/foreign-key.service';
+
+
 
 const OPTION_PARAM_DATA_KEY = 'option';
 
@@ -27,6 +29,22 @@ export class AppResolverService implements Resolve<any> {
    */
   resolve(route: ActivatedRouteSnapshot, state:RouterStateSnapshot) {
     const opt:anyEntityOptions<AnyEntity> = route.data[OPTION_PARAM_DATA_KEY];
+
+    // this.store.dispatch( new PrepareByLoc(opt.location)) ;
+    // return this.store.select( fromSelectors.selectIsExist(opt.name))
+    //   .pipe(
+
+    //   )
+    // return this.store.select( fromSelectors.selectIsExist(opt.name))
+    //    .pipe(
+    //        take(1), 
+    //        tap(x=>console.log(x)  ),
+    //        tap( x => !x ? this.store.dispatch( new PrepareByLoc( opt.location) ) : null ),
+    //        filter( x => x ),
+    //    ).pipe(
+    //        startWith(false),
+    //        take(2)
+    //     );          
 
     return this.store.select( fromSelectors.selectIsExist(opt.name))
     .pipe(
